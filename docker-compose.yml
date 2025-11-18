@@ -1,0 +1,50 @@
+# Versão do Docker Compose que estamos usando
+version: '3.8'
+
+# Aqui listamos todos os serviços (contêineres) que queremos
+services:
+
+  # 1. Nosso banco de dados principal
+  mongo:
+    image: mongo:latest               # "Qual imagem usar?" -> A oficial do Mongo, versão mais recente
+    container_name: restaurante-mongo # Um nome fácil para identificarmos o contêiner
+    ports:
+      - "27017:27017"                 # "Mapear a porta 27017 de dentro do contêiner para a 27017 da nossa máquina"
+    environment:
+      # Definindo o usuário e senha de administrador do banco
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpassword
+    volumes:
+      - mongo-data:/data/db         # Isso garante que os dados do banco não se percam se o contêiner parar
+
+  # 2. Nosso banco de cache
+  redis:
+    image: redis:latest
+    container_name: restaurante-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  # 3. Nosso armazém de arquivos
+  minio:
+    image: minio/minio:latest
+    container_name: restaurante-minio
+    ports:
+      # A porta 9000 é para a API (onde o Java vai se conectar)
+      - "9000:9000"
+      # A porta 9001 é para a interface web (onde vocês podem ver os arquivos pelo navegador)
+      - "9001:9001"
+    environment:
+      # Definindo o usuário e senha de administrador do MinIO
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadminpassword
+    command: server /data --console-address ":9001" # Comando para iniciar o MinIO como servidor
+    volumes:
+      - minio-data:/data
+
+# "Volumes" são como o Docker gerencia o armazenamento persistente (para não perdermos os dados)
+volumes:
+  mongo-data:
+  redis-data:
+  minio-data:
