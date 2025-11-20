@@ -4,18 +4,17 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Data
-@Document(collection = "pratos")
-public class Prato {
+@Document(collection = "pedido")
+public class Pedido {
 
     @Id
     private String id;
 
-    private String nome;
-    private Double preco;
-    private String descricao;
-    private String categoria;
-
-    private String urlFoto;
-
+    private Usuario usuario;
+    private List<Prato> pratos;
+    private double valorTotal;
+    private String status;
 }
