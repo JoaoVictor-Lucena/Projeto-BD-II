@@ -14,7 +14,7 @@ public class Pedido {
     private String id;
 
     private Usuario usuario;
-    private List<Prato> pratos;
+    private List<ItemCardapio> itemCardapios;
     private double valorTotal;
     private String status;
 }

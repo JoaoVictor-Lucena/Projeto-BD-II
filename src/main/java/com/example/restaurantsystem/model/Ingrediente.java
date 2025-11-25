@@ -10,6 +10,7 @@ public class Ingrediente {
 
     @Id
     private String id;
+
     private Double quantidade;
     private String nome;
     private String unidadeDeMedida;

@@ -12,6 +12,7 @@ public class MovimentacaoEstoque {
 
     @Id
     private String id;
+
     private Double quantidade;
     private Date dataCriacao;
     private String tipoMovimentacao;
