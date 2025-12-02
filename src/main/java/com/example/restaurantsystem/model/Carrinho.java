@@ -1,18 +1,19 @@
 package com.example.restaurantsystem.model;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Document(collection = "carrinho")
-public class Carrinho {
+public class Carrinho implements Serializable {
 
-    @Id
+    private static final long serialVersionUID = 1L;
+
     private String id;
 
-    private List<ItemCardapio> listaItens;
-    private Double valorCarrinho;
+    private List<ItemCardapio> listaItens = new ArrayList<>();
+
+    private Double valorTotal = 0.0;
 }

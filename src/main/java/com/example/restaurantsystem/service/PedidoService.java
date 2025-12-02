@@ -4,9 +4,9 @@ import com.example.restaurantsystem.controller.DTO.PedidoDTO;
 import com.example.restaurantsystem.model.Pedido;
 import com.example.restaurantsystem.model.ItemCardapio;
 import com.example.restaurantsystem.model.Usuario;
-import com.example.restaurantsystem.repository.PedidoRepository;
-import com.example.restaurantsystem.repository.ItemCardapioRepository;
-import com.example.restaurantsystem.repository.UsuarioRepository;
+import com.example.restaurantsystem.repository.jpa.PedidoRepository;
+import com.example.restaurantsystem.repository.jpa.ItemCardapioRepository;
+import com.example.restaurantsystem.repository.jpa.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,26 +18,24 @@ public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
     @Autowired
-    private ItemCardapioRepository itemCardapioRepository;
-    @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private ItemCardapioRepository itemRepository;
 
-    public Pedido criarPedido(PedidoDTO pedidoDTO) {
-
-        Usuario usuarioEncontrado = usuarioRepository.findById(pedidoDTO.getUsuarioId()).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-        List<ItemCardapio> itemCardapios = itemCardapioRepository.findAllById(pedidoDTO.getPratosId());
-
-        Double total = 0.0;
-        for (ItemCardapio itemCardapio : itemCardapios) {
-            total += itemCardapio.getPreco();
-        }
-
+    public Pedido criarPedido(PedidoDTO dto) {
         Pedido pedido = new Pedido();
-        pedido.setUsuario(usuarioEncontrado);
-        pedido.setItemCardapios(itemCardapios);
+
+        Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        pedido.setUsuario(usuario);
+
+        List<ItemCardapio> itens = itemRepository.findAllById(dto.getItensId());
+        pedido.setItemCardapios(itens);
+
+        double total = itens.stream().mapToDouble(ItemCardapio::getPreco).sum();
         pedido.setValorTotal(total);
-        pedido.setStatus("Em entrega");
+
+        pedido.setStatus("PENDENTE");
 
         return pedidoRepository.save(pedido);
     }

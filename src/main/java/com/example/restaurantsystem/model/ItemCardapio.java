@@ -2,11 +2,12 @@ package com.example.restaurantsystem.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "item_cardapio")
-public class ItemCardapio {
+@Table(name = "itemCardapio")
+public class ItemCardapio implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +21,4 @@ public class ItemCardapio {
     private Categoria categoria;
 
     private String urlFoto;
-
 }

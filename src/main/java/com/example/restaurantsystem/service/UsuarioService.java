@@ -1,7 +1,7 @@
 package com.example.restaurantsystem.service;
 
 import com.example.restaurantsystem.model.Usuario;
-import com.example.restaurantsystem.repository.UsuarioRepository;
+import com.example.restaurantsystem.repository.jpa.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +15,6 @@ public class UsuarioService {
 
     public Usuario salvar(Usuario usuario) {
         return usuarioRepository.save(usuario);
-    }
-
-    public void deletarPorId(Usuario usuario) {
-        usuarioRepository.delete(usuario);
-    }
-
-    public Usuario buscarPorId(Usuario usuario) {
-        return usuarioRepository.findById(usuario.getId()).get();
     }
 
     public List<Usuario> listarTodos() {

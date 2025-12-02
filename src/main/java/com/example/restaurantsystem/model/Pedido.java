@@ -1,20 +1,31 @@
 package com.example.restaurantsystem.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
 @Data
-@Document(collection = "pedido")
+@Entity
+@Table(name = "pedido")
 public class Pedido {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
     private Usuario usuario;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pedido_itens",
+            joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
     private List<ItemCardapio> itemCardapios;
+
     private double valorTotal;
     private String status;
 }

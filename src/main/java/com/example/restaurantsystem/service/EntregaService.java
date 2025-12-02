@@ -1,7 +1,7 @@
 package com.example.restaurantsystem.service;
 
 import com.example.restaurantsystem.model.Entrega;
-import com.example.restaurantsystem.repository.EntregaRepository;
+import com.example.restaurantsystem.repository.mongo.EntregaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

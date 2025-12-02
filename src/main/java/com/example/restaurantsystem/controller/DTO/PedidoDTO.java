@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class PedidoDTO {
-    private String usuarioId;
-    private List<String> pratosId;
+    private Long usuarioId;
+    private List<Long> itensId;
 }

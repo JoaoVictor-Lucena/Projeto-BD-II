@@ -1,20 +1,28 @@
 package com.example.restaurantsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Data
-@Document(collection = "usuario")
+@Entity
+@Table(name = "usuario")
 public class Usuario {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String nome;
     private String email;
     private String senha;
     private String telefone;
     private String endereco;
+
+    @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
+    private List<Pedido> pedidos;
 
 }
